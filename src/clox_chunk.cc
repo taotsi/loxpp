@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "clox_chunk.h"
-#include "clox_memory.h"
+#include "clox_chunk.hh"
+#include "clox_memory.hh"
 
 void InitChunk(Chunk *chunk){
   chunk->capacity = 0;

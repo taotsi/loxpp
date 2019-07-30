@@ -1,7 +1,7 @@
-#ifndef CLOX_MEMORY_H
-#define CLOX_MEMORY_H
+#ifndef CLOX_MEMORY_HH
+#define CLOX_MEMORY_HH
 
-#include "clox_common.h"
+#include "clox_common.hh"
 
 #define GROW_CAPACITY(capacity) \
   ((capacity) < 8 ? 8 : (capacity)*2)
@@ -14,4 +14,4 @@
 
 void* Reallocate(void* previous, size_t old_size, size_t new_size);
 
-#endif // CLOX_MEMORY_H
+#endif // CLOX_MEMORY_HH

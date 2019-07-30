@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "clox_debug.h"
+#include "clox_debug.hh"
 
 void DisassembleChunk(Chunk *chunk, const char* name){
   printf("== %s ==\n", name);
@@ -22,7 +22,7 @@ int DisassembleInstruction(Chunk *chunk, int offset){
   }
 }
 
-static int simpleInstruction(const char* name, int offset){
+int simpleInstruction(const char* name, int offset){
   printf("%s\n", name);
   return offset + 1;
 }

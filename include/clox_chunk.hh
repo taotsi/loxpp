@@ -1,7 +1,7 @@
-#ifndef CLOX_CHUNK_H
-#define CLOX_CHUNK_H
+#ifndef CLOX_CHUNK_HH
+#define CLOX_CHUNK_HH
 
-#include "clox_common.h"
+#include "clox_common.hh"
 
 typedef enum{
   OP_RETURN,
@@ -17,4 +17,4 @@ void InitChunk(Chunk *chunk);
 void FreeChunk(Chunk *chunk);
 void WriteChunk(Chunk *chunk, uint8_t byte);
 
-#endif // CLOX_CHUNK_H
+#endif // CLOX_CHUNK_HH
