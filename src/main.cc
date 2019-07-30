@@ -4,9 +4,11 @@
 #include "debug.hh"
 
 int main(int argc, const char **argv){
-  Chunk8 chunk;
+  Chunk chunk;
   chunk.Write(OpCode::OP_RETURN);
-  // DisassembleChunk(&chunk, "chunk test");
+  chunk.Write(OpCode::OP_UNKNOWN);
+  Debuger debug;
+  debug.Disassemble(chunk, "test");
 
   printf("~ done ~\n");
   return 0;

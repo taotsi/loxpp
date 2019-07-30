@@ -1,15 +1,14 @@
 #include <stdio.h>
 #include "chunk.hh"
 
-template<typename CodeType>
-void Chunk<CodeType>::Write(CodeType &&byte){
-  code.push_back(std::forward<CodeType>(byte));
+void Chunk::Write(const OpCode &byte){
+  code.push_back(byte);
+}
+void Chunk::Write(OpCode &&byte){
+  code.push_back(std::move(byte));
 }
 
-template void Chunk<OpCode>::Write(OpCode&&);
-
-template<typename CodeType>
-CodeType Chunk<CodeType>::operator[](size_t i){
+OpCode Chunk::operator[](size_t i) const {
   if(i < code.size()){
     return code[i];
   }

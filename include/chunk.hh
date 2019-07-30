@@ -9,7 +9,6 @@ enum class OpCode : uint8_t{
   OP_RETURN,
 };
 
-template<typename CodeType>
 class Chunk{
 public:
   Chunk(){};
@@ -19,13 +18,13 @@ public:
   Chunk& operator=(Chunk&&) = default;
   ~Chunk() = default;
 
-  void Write(CodeType &&byte);
-  CodeType operator[](size_t i);
+  void Write(OpCode &&byte);
+  void Write(const OpCode &byte);
+  OpCode operator[](size_t i) const;
+  inline size_t size() const {return code.size();}
 
 private:
   std::vector<OpCode> code;
 };
-
-using Chunk8 = Chunk<OpCode>;
 
 #endif // CHUNK_HH
