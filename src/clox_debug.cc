@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "clox_debug.h"
+#include "clox_debug.hh"
 
 void DisassembleChunk(Chunk *chunk, const char* name){
   printf("== %s ==\n", name);

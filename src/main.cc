@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "clox_common.h"
-#include "clox_chunk.h"
-#include "clox_debug.h"
+#include "clox_common.hh"
+#include "clox_chunk.hh"
+#include "clox_debug.hh"
 
 int main(int argc, const char **argv){
   Chunk chunk;
