@@ -1,14 +1,13 @@
 #include <stdio.h>
-#include "clox_common.hh"
-#include "clox_chunk.hh"
-#include "clox_debug.hh"
+#include "common.hh"
+#include "chunk.hh"
+#include "debug.hh"
 
 int main(int argc, const char **argv){
-  Chunk chunk;
-  InitChunk(&chunk);
-  WriteChunk(&chunk, OP_RETURN);
-  DisassembleChunk(&chunk, "chunk test");
-  FreeChunk(&chunk);
+  Chunk8 chunk;
+  chunk.Write(OpCode::OP_RETURN);
+  // DisassembleChunk(&chunk, "chunk test");
+
   printf("~ done ~\n");
   return 0;
 }
