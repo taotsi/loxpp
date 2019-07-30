@@ -23,13 +23,20 @@ private:
     std::cout << std::setfill('0') << std::setw(4) << offset << "\t";
     auto instruction = chunk[offset];
     switch(instruction){
-      case OpCode::OP_RETURN:{
+      case OpCode::OP_RETURN:
+      {
         return SimpleInstruction("OP_RETURN", offset);
       }
-      case OpCode::OP_UNKNOWN:{
+      case OpCode::OP_UNKNOWN:
+      {
         return SimpleInstruction("OP_UNKNOWN", offset);
       }
-      default:{
+      case OpCode::OP_CONSTANT:
+      {
+        return ConstantInstruction(chunk, "OP_CONSTANT", offset);
+      }
+      default:
+      {
         std::cout << "undefined operation\n";
         return ++offset;
       }
@@ -39,6 +46,13 @@ private:
   {
     std::cout << op_name << "\n";
     return ++offset;
+  }
+  size_t ConstantInstruction(const Chunk &chunk, std::string &&op_name, size_t offset) const
+  {
+    auto pos = static_cast<size_t>(chunk[offset+1]);
+    std::cout << op_name << "\t@" << pos << "\t";
+    std::cout << chunk.constant(pos) << "\n";
+    return offset + 2;
   }
 };
 
