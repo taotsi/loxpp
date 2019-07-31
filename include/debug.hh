@@ -4,9 +4,11 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 #include "chunk.hh"
 
-class Debuger{
+class Debuger
+{
 public:
   void Disassemble(const Chunk &chunk, std::string name) const
   {
@@ -22,6 +24,7 @@ private:
   {
     std::cout << std::setfill('0') << std::setw(4) << offset << "\t";
     auto instruction = chunk[offset];
+    // TODO: change switch to hash<OpCode, function>
     switch(instruction){
       case OpCode::OP_RETURN:
       {
@@ -49,10 +52,14 @@ private:
   }
   size_t ConstantInstruction(const Chunk &chunk, std::string &&op_name, size_t offset) const
   {
-    auto pos = static_cast<size_t>(chunk[offset+1]);
-    std::cout << op_name << "\t@" << pos << "\t";
-    std::cout << chunk.constant(pos) << "\n";
-    return offset + 2;
+    size_t address = 0;
+    for (size_t idx = 0; idx < Chunk::LEN_SIZE_T; idx++)
+    {
+      address += static_cast<size_t>(chunk[idx + ++offset]) * pow(256, idx);
+    }
+    std::cout << op_name << "\t@" << offset << "\t";
+    std::cout << chunk.constant(address) << "\n";
+    return ++offset;
   }
 };
 
