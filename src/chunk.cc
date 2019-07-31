@@ -1,6 +1,8 @@
 #include <iostream>
 #include "chunk.hh"
 
+namespace loxpp{
+
 Chunk::Chunk()
 {
   code_.push_back(OpCode::OP_RESERVED);
@@ -67,4 +69,6 @@ LineNumber Chunk::GetLineNum(size_t offset) const
   }
   std::cout << "no such a offset matched a line number!\n";
   return LineNumber{0, 0, 0};
+}
+
 }

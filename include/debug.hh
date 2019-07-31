@@ -7,6 +7,8 @@
 #include <cmath>
 #include "chunk.hh"
 
+namespace loxpp{
+
 class Debuger
 {
 public:
@@ -84,5 +86,7 @@ private:
     return offset + 8;
   }
 };
+
+}
 
 #endif // DEBUG_HH

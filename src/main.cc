@@ -2,6 +2,9 @@
 #include "common.hh"
 #include "chunk.hh"
 #include "debug.hh"
+#include "utility.hh"
+
+using namespace loxpp;
 
 int main(int argc, const char **argv){
   Chunk chunk;

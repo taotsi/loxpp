@@ -6,6 +6,8 @@
 #include "value.hh"
 #include "common.hh"
 
+namespace loxpp{
+
 enum class OpCode : uint8_t
 {
   OP_RESERVED,
@@ -88,5 +90,7 @@ private:
   size_t len_continuous_ = 1;
   size_t len_accumlated_ = 1;
 };
+
+}
 
 #endif // CHUNK_HH
