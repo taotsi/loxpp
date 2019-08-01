@@ -38,7 +38,7 @@ public:
       if(!is_silent())
       {
         std::stringstream ss;
-        ss << "\033[0;35m" << val_name << "\033[0m = " << val << "\n";
+        ss << "\033[0;35m" << val_name << "\033[0m = " << val;
         core(ss);
       }
     }

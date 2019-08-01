@@ -34,6 +34,7 @@ public:
   void Write(ConstantAddress address, size_t line_num);
   ConstantAddress AddConstant(Value value);
   OpCode operator[](size_t i) const;
+  inline OpCode at(size_t i) const {return (*this)[i];}
   inline size_t size() const {return code_.size();}
   Value constant(size_t i) const {return constants_[i];}
   LineNumber GetLineNum(size_t offset) const;

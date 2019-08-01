@@ -15,7 +15,7 @@ public:
   void Disassemble(const Chunk &chunk, std::string name) const
   {
     std::cout << "=========== " << name << " ===========\n\n";
-    std::cout << "OFFSET\tLINE\tOPERATION\tOPRAND\n\n";
+    std::cout << "OFFSET\tLINE\tOPCODE\tOPRAND\n\n";
     auto size_code = chunk.size();
     for (size_t offset = 0; offset < size_code;)
     {
@@ -23,7 +23,8 @@ public:
     }
   }
 private:
-  size_t DisassembleInstruction(const Chunk &chunk, size_t offset) const
+  friend class VM;
+  static size_t DisassembleInstruction(const Chunk &chunk, size_t offset)
   {
     std::cout << std::setfill('0') << std::setw(4) << offset << "\t";
     auto line_num = chunk.GetLineNum(offset);
@@ -66,12 +67,12 @@ private:
       }
     }
   }
-  size_t SimpleInstruction(std::string &&op_name, size_t offset) const
+  static size_t SimpleInstruction(std::string &&op_name, size_t offset)
   {
     std::cout << op_name << "\n";
     return ++offset;
   }
-  size_t ConstantInstruction(const Chunk &chunk, std::string &&op_name, size_t offset) const
+  static size_t ConstantInstruction(const Chunk &chunk, std::string &&op_name, size_t offset)
   {
     // std::cout << "chunk size = " << chunk.size() << "\n";
     size_t address = 0;
@@ -83,7 +84,7 @@ private:
     }
     // std::cout << "address = " << address << "\n";
     std::cout << op_name << "\t" << chunk.constant(address) << " @" << offset << "\n";
-    return offset + 8;
+    return offset + Chunk::LEN_SIZE_T;
   }
 };
 

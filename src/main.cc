@@ -1,27 +1,29 @@
 #include <stdio.h>
 #include "common.hh"
 #include "chunk.hh"
-#include "debug.hh"
+#include "debuger.hh"
 #include "utility.hh"
+#include "vm.hh"
 
 using namespace loxpp;
 
 int main(int argc, const char **argv){
-  Chunk chunk;
-  chunk.Write(OpCode::OP_UNKNOWN, 123);
-  chunk.Write(OpCode::OP_RETURN, 123);
-  chunk.Write(OpCode::OP_UNKNOWN, 123);
+  VM vm;
+  auto chunk = std::make_shared<Chunk>();
+  chunk->Write(OpCode::OP_UNKNOWN, 1);
 
-  auto address = chunk.AddConstant(3.14);
-  chunk.Write(OpCode::OP_CONSTANT, 42);
-  chunk.Write(address, 43);
+  auto address = chunk->AddConstant(3.14);
+  chunk->Write(OpCode::OP_CONSTANT, 2);
+  chunk->Write(address, 3);
 
-  chunk.Write(OpCode::OP_RETURN, 50);
+  chunk->Write(OpCode::OP_RETURN, 50);
 
-  Debuger debug;
-  debug.Disassemble(chunk, "test");
+  // Debuger debug;
+  // debug.Disassemble(*chunk, "test");
 
-  // auto ln = chunk.line_numbers();
+  vm.Interpret(chunk);
+
+  // auto ln = chunk->line_numbers();
   // for(auto &it : ln)
   // {
   //   std::cout << it.line_number() << "\t" << it.len_continuous() << "\t" << it.len_accumulated() << "\n";

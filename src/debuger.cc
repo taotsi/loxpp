@@ -1,5 +1,5 @@
 #include <iostream>
-#include "debug.hh"
+#include "debuger.hh"
 
 namespace loxpp{
 
