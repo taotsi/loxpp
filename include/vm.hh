@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <functional>
 #include "chunk.hh"
 
 namespace loxpp
@@ -43,7 +44,13 @@ private:
   void Push(Value val);
   Value Pop();
 
-
+  template<typename Func>
+  void BinaryOp(Func func)
+  {
+    auto r = Pop();
+    auto l = Pop();
+    Push(func(l, r));
+  }
 };
 }
 

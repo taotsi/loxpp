@@ -28,13 +28,6 @@ InterpretResult VM::Interpret(std::shared_ptr<Chunk> chunk)
 
 InterpretResult VM::Run()
 {
-#define BINARY_OP(op) \
-  do { \
-    double b = Pop(); \
-    double a = Pop(); \
-    Push(a op b); \
-  } while (false)
-
   bool is_end = false;
   auto n_instruc = chunk_ptr_->size();
   while(ip_ < n_instruc)
@@ -68,9 +61,7 @@ InterpretResult VM::Run()
       }
       case OpCode::OP_CONSTANT:
       {
-        // lmsg("constant");
         Value constant = ReadConstant();
-        // lmark();
         Push(constant);
         PrintValue(constant);
         // lval(stack_.back());
@@ -78,7 +69,7 @@ InterpretResult VM::Run()
       }
       case OpCode::OP_UNKNOWN:
       {
-        std::cout << "unknown opcode, maybe forgot to resolve a opcode?\n";
+        std::cout << "unknown opcode, maybe forgot to resolve some opcode?\n";
         break;
       }
       case OpCode::OP_RESERVED:
@@ -93,22 +84,23 @@ InterpretResult VM::Run()
       }
       case OpCode::OP_ADD:
       {
-        BINARY_OP(+);
+        // Implicit instantiation for template function, super cool
+        BinaryOp([](Value l, Value r){return l + r;});
         break;
       }
       case OpCode::OP_SUBTRACT:
       {
-        BINARY_OP(-);
+        BinaryOp([](Value l, Value r){return l - r;});
         break;
       }
       case OpCode::OP_MULTIPLY:
       {
-        BINARY_OP(*);
+        BinaryOp([](Value l, Value r){return l * r;});
         break;
       }
       case OpCode::OP_DIVIDE:
       {
-        BINARY_OP(/);
+        BinaryOp([](Value l, Value r){return l / r;});
         break;
       }
       default:
@@ -118,8 +110,6 @@ InterpretResult VM::Run()
       }
     }
   }
-
-#undef BINARY_OP
 }
 
 OpCode VM::IpRead()
