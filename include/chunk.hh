@@ -13,7 +13,8 @@ enum class OpCode : uint8_t
   OP_RESERVED,
   OP_UNKNOWN,
   OP_RETURN,
-  OP_CONSTANT
+  OP_CONSTANT,
+  OP_NEGATE
 };
 
 class ConstantAddress;

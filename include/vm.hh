@@ -2,6 +2,7 @@
 #define VM_HH
 
 #include <memory>
+#include <vector>
 #include "chunk.hh"
 
 namespace loxpp
@@ -33,11 +34,15 @@ public:
 private:
   std::shared_ptr<Chunk> chunk_ptr_;
   size_t ip_ = 0;
+  std::vector<Value> stack_;
 
   InterpretResult Run();
   OpCode IpRead();
   Value ReadConstant();
   void PrintValue(Value constant);
+  void Push(Value val);
+  Value Pop();
+
 };
 }
 

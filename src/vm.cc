@@ -34,20 +34,35 @@ InterpretResult VM::Run()
   {
 #ifdef DEBUG_TRACE_EXECUTION
     Debuger::DisassembleInstruction(*chunk_ptr_, ip_);
+    std::cout << "stack: ";
+    if(!stack_.empty())
+    {
+      auto size_stack = stack_.size();
+      for (size_t slot = 0; slot < size_stack; slot++)
+      {
+        std::cout << "[" << stack_[slot] << "] ";
+      }
+    }
+    else
+    {
+      std::cout << "empty";
+    }
+    std::cout << "\n";
 #endif
     OpCode instruct;
     switch(instruct = IpRead())
     {
       case OpCode::OP_RETURN:
       {
+        std::cout << Pop() << "\n";
         return InterpretResult::INTERPRET_OK;
       }
       case OpCode::OP_CONSTANT:
       {
         Value constant = ReadConstant();
         // lmark();
-        PrintValue(constant);
-        std::cout << "\n";
+        Push(constant);
+        // PrintValue(constant);
         break;
       }
       case OpCode::OP_UNKNOWN:
@@ -57,7 +72,12 @@ InterpretResult VM::Run()
       }
       case OpCode::OP_RESERVED:
       {
-        std::cout << "reserved opcode, doing nothing for now\n";
+        std::cout << "reserved opcode\n";
+        break;
+      }
+      case OpCode::OP_NEGATE:
+      {
+        Push(-Pop());
         break;
       }
       default:
@@ -78,6 +98,7 @@ Value VM::ReadConstant()
 {
     size_t address = 0;
     // right now ip_ points to the first byte of constant address just followint OpCode::OP_CONSTANT
+    // TODO: this is repeated code block, should be reusable
     for (size_t idx = 0; idx < Chunk::LEN_SIZE_T; idx++)
     {
       // lval(idx);
@@ -91,6 +112,17 @@ Value VM::ReadConstant()
 }
 void VM::PrintValue(Value constant)
 {
-  std::cout << constant;
+  std::cout << constant << "\n";
 }
+void VM::Push(Value val)
+{
+  stack_.push_back(val);
+}
+Value VM::Pop()
+{
+  auto val = stack_.back();
+  stack_.pop_back();
+  return val;
+}
+
 }

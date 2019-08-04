@@ -60,6 +60,10 @@ private:
       {
         return SimpleInstruction("OP_RESERVED", offset);
       }
+      case OpCode::OP_NEGATE:
+      {
+        return SimpleInstruction("OP_NEGATE", offset);
+      }
       default:
       {
         std::cout << "undefined operation\n";
