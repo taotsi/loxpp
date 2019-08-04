@@ -15,8 +15,8 @@ class Debuger
 public:
   void Disassemble(const Chunk &chunk, std::string name) const
   {
-    std::cout << "=========== " << name << " ===========\n\n";
-    std::cout << "OFFSET\tLINE\tOPCODE\t\tOPRAND\n\n";
+    std::cout << "=========== " << name << " ===========\n";
+    std::cout << "OFFSET\tLINE\tOPCODE\t\tOPRAND\n--------------------------------------\n";
     auto size_code = chunk.size();
     for (size_t offset = 0; offset < size_code;)
     {

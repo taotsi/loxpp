@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "CLI/CLI.hpp"
 #include "common.hh"
 #include "chunk.hh"
 #include "debuger.hh"
@@ -7,9 +8,12 @@
 using namespace loxpp;
 
 int main(int argc, const char **argv){
-  bool with_debug = false;
-  bool only_debug = false;
+  bool show_asm = false;
+  // bool only_debug = false;
 
+  CLI::App arg_parser("main arg parser");
+  arg_parser.add_flag("-d", show_asm, "show assemble code");
+  CLI11_PARSE(arg_parser, argc, argv);
   VM vm;
   auto chunk = std::make_shared<Chunk>();
   // chunk->Write(OpCode::OP_UNKNOWN, 1);
@@ -34,8 +38,12 @@ int main(int argc, const char **argv){
 
   chunk->Write(OpCode::OP_RETURN, 3);
 
-  // Debuger debug;
-  // debug.Disassemble(*chunk, "debug");
+  if(show_asm)
+  {
+    Debuger debug;
+    debug.Disassemble(*chunk, "debug");
+    std::cout << std::endl;
+  }
 
   vm.Interpret(chunk);
 
