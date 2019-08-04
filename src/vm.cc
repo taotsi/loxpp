@@ -5,7 +5,7 @@
 #include "vm.hh"
 #include "debuger.hh"
 
-#define DEBUG_TRACE_EXECUTION
+// #define DEBUG_TRACE_EXECUTION
 
 namespace loxpp
 {
@@ -28,6 +28,13 @@ InterpretResult VM::Interpret(std::shared_ptr<Chunk> chunk)
 
 InterpretResult VM::Run()
 {
+#define BINARY_OP(op) \
+  do { \
+    double b = Pop(); \
+    double a = Pop(); \
+    Push(a op b); \
+  } while (false)
+
   bool is_end = false;
   auto n_instruc = chunk_ptr_->size();
   while(ip_ < n_instruc)
@@ -49,8 +56,10 @@ InterpretResult VM::Run()
     }
     std::cout << "\n";
 #endif
-    OpCode instruct;
-    switch(instruct = IpRead())
+    OpCode instruct = IpRead();
+    // lval(ip_);
+    // lval(chunk_ptr_->size());
+    switch(instruct)
     {
       case OpCode::OP_RETURN:
       {
@@ -59,25 +68,47 @@ InterpretResult VM::Run()
       }
       case OpCode::OP_CONSTANT:
       {
+        // lmsg("constant");
         Value constant = ReadConstant();
         // lmark();
         Push(constant);
-        // PrintValue(constant);
+        PrintValue(constant);
+        // lval(stack_.back());
         break;
       }
       case OpCode::OP_UNKNOWN:
       {
-        std::cout << "unknown opcode\n";
+        std::cout << "unknown opcode, maybe forgot to resolve a opcode?\n";
         break;
       }
       case OpCode::OP_RESERVED:
       {
-        std::cout << "reserved opcode\n";
+        // std::cout << "reserved opcode\n";
         break;
       }
       case OpCode::OP_NEGATE:
       {
         Push(-Pop());
+        break;
+      }
+      case OpCode::OP_ADD:
+      {
+        BINARY_OP(+);
+        break;
+      }
+      case OpCode::OP_SUBTRACT:
+      {
+        BINARY_OP(-);
+        break;
+      }
+      case OpCode::OP_MULTIPLY:
+      {
+        BINARY_OP(*);
+        break;
+      }
+      case OpCode::OP_DIVIDE:
+      {
+        BINARY_OP(/);
         break;
       }
       default:
@@ -87,6 +118,8 @@ InterpretResult VM::Run()
       }
     }
   }
+
+#undef BINARY_OP
 }
 
 OpCode VM::IpRead()
@@ -96,19 +129,20 @@ OpCode VM::IpRead()
 
 Value VM::ReadConstant()
 {
-    size_t address = 0;
-    // right now ip_ points to the first byte of constant address just followint OpCode::OP_CONSTANT
-    // TODO: this is repeated code block, should be reusable
-    for (size_t idx = 0; idx < Chunk::LEN_SIZE_T; idx++)
-    {
-      // lval(idx);
-      address += static_cast<size_t>(chunk_ptr_->at(idx + ip_)) * pow(256, idx);
-      // lval(address);
-    }
-    ip_ += Chunk::LEN_SIZE_T;
-    auto value = chunk_ptr_->constant(address);
-    // lmark();
-    return value;
+  // lmark();
+  size_t address = 0;
+  // right now ip_ points to the first byte of constant address just followint OpCode::OP_CONSTANT
+  // TODO: this is repeated code block, should be reusable
+  for (size_t idx = 0; idx < Chunk::LEN_SIZE_T; idx++)
+  {
+    // lval(idx);
+    address |= static_cast<size_t>(chunk_ptr_->at(idx + ip_)) << 8*(Chunk::LEN_SIZE_T - idx - 1);
+    // lval(address);
+  }
+  ip_ += Chunk::LEN_SIZE_T;
+  auto value = chunk_ptr_->constant(address);
+  // lmark();
+  return value;
 }
 void VM::PrintValue(Value constant)
 {

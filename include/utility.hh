@@ -1,3 +1,6 @@
+#ifndef UTILITY_HH
+#define UTILITY_HH
+
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
@@ -191,3 +194,5 @@ private:
 #define lval(val) Msg::lval(#val, val)
 
 }
+
+#endif // UTILITY_HH
