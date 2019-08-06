@@ -28,8 +28,12 @@ public:
   VM& operator=(VM&&) = default;
   ~VM() = default;
 
+  void Repl();
+  void RunFile(const std::string path);
   // InterpretResult Interpret();
   InterpretResult Interpret(std::shared_ptr<Chunk> Chunk);
+  Chunk ReadLine(std::string line);
+  Chunk ReadFile(std::string path);
   inline size_t ip() {return ip_;}
 
 private:

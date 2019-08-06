@@ -6,9 +6,11 @@
 #include <iomanip>
 #include <cmath>
 #include "chunk.hh"
-#include "utility.hh"
+#include "msg.hh"
 
 namespace loxpp{
+
+using namespace taotsi;
 
 class Debuger
 {
@@ -20,7 +22,7 @@ public:
     auto size_code = chunk.size();
     for (size_t offset = 0; offset < size_code;)
     {
-      // lval(offset);
+      // tval(offset);
       offset = DisassembleInstruction(chunk, offset);
     }
   }
@@ -31,7 +33,7 @@ private:
   {
     std::cout << std::setfill('0') << std::setw(4) << offset << "\t";
     auto line_num = chunk.GetLineNum(offset);
-    // lval(line_num.line_number());
+    // tval(line_num.line_number());
     if(offset == line_num.len_accumulated() - line_num.len_continuous())
     {
       std::cout << std::setfill('0') << std::setw(4) << line_num.line_number() << "\t";
@@ -40,8 +42,8 @@ private:
     {
       std::cout << "   |\t";
     }
-    // lval(chunk.size());
-    // lval(offset);
+    // tval(chunk.size());
+    // tval(offset);
     auto instruction = chunk[offset];
     // TODO: change switch to hash<OpCode, function>
     switch(instruction){
@@ -98,12 +100,12 @@ private:
     offset++;
     for (size_t idx = 0; idx < Chunk::LEN_SIZE_T; idx++)
     {
-      // lval(idx+offset);
-      // lval(static_cast<size_t>(chunk[idx + offset]));
+      // tval(idx+offset);
+      // tval(static_cast<size_t>(chunk[idx + offset]));
       address |= static_cast<size_t>(chunk[idx + offset]) << 8*(Chunk::LEN_SIZE_T - idx - 1);
     }
-    // lval(address);
-    // lval(offset + Chunk::LEN_SIZE_T);
+    // tval(address);
+    // tval(offset + Chunk::LEN_SIZE_T);
     std::cout << op_name << "\t" << chunk.constant(address) << "\t@" << offset << "\n";
     return offset + Chunk::LEN_SIZE_T;
   }

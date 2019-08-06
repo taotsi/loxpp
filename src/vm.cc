@@ -1,7 +1,9 @@
 #include <memory>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <cmath>
-#include "utility.hh"
+#include "msg.hh"
 #include "vm.hh"
 #include "debuger.hh"
 
@@ -9,6 +11,9 @@
 
 namespace loxpp
 {
+
+using namespace taotsi;
+
 VM::VM()
 {
 
@@ -19,11 +24,43 @@ VM::VM()
 
 // }
 
+void VM::Repl()
+{
+  tmsg("VM::Repl");
+  std::string line;
+  std::cout << "> ";
+  while(std::getline(std::cin, line))
+  {
+    if(!line.empty())
+    {
+      auto chunk = std::make_shared<Chunk>(ReadLine(line));
+      Interpret(chunk);
+    }
+    std::cout << "> ";
+  }
+}
+
+void VM::RunFile(const std::string path)
+{
+  auto chunk = std::make_shared<Chunk>(ReadFile(path));
+  Interpret(chunk);
+}
+
 InterpretResult VM::Interpret(std::shared_ptr<Chunk> chunk)
 {
   chunk_ptr_ = chunk;
   ip_ = 0;
   return Run();
+}
+
+Chunk ReadLine(std::string line)
+{
+  // TODO:
+}
+
+Chunk ReadFile(std::string path)
+{
+  // TODO:
 }
 
 InterpretResult VM::Run()
@@ -50,8 +87,8 @@ InterpretResult VM::Run()
     std::cout << "\n";
 #endif
     OpCode instruct = IpRead();
-    // lval(ip_);
-    // lval(chunk_ptr_->size());
+    // tval(ip_);
+    // tval(chunk_ptr_->size());
     switch(instruct)
     {
       case OpCode::OP_RETURN:
@@ -64,7 +101,7 @@ InterpretResult VM::Run()
         Value constant = ReadConstant();
         Push(constant);
         PrintValue(constant);
-        // lval(stack_.back());
+        // tval(stack_.back());
         break;
       }
       case OpCode::OP_UNKNOWN:
@@ -125,9 +162,9 @@ Value VM::ReadConstant()
   // TODO: this is repeated code block, should be reusable
   for (size_t idx = 0; idx < Chunk::LEN_SIZE_T; idx++)
   {
-    // lval(idx);
+    // tval(idx);
     address |= static_cast<size_t>(chunk_ptr_->at(idx + ip_)) << 8*(Chunk::LEN_SIZE_T - idx - 1);
-    // lval(address);
+    // tval(address);
   }
   ip_ += Chunk::LEN_SIZE_T;
   auto value = chunk_ptr_->constant(address);
