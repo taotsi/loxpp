@@ -53,14 +53,16 @@ InterpretResult VM::Interpret(std::shared_ptr<Chunk> chunk)
   return Run();
 }
 
-Chunk ReadLine(std::string line)
+Chunk VM::ReadLine(std::string line)
 {
   // TODO:
+  return Chunk{};
 }
 
-Chunk ReadFile(std::string path)
+Chunk VM::ReadFile(std::string path)
 {
   // TODO:
+  return Chunk{};
 }
 
 InterpretResult VM::Run()
