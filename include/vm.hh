@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <functional>
+#include "source.hh"
 #include "chunk.hh"
 
 namespace loxpp
@@ -11,9 +12,9 @@ namespace loxpp
 
 enum class InterpretResult
 {
-  INTERPRET_OK,
-  INTERPRET_COMPILE_ERROR,
-  INTERPRET_RUNTIME_ERROR
+  OK,
+  COMPILE_ERROR,
+  RUNTIME_ERROR
 };
 
 // NOTE: only one VM instance is needed
@@ -28,12 +29,11 @@ public:
   VM& operator=(VM&&) = default;
   ~VM() = default;
 
-  void Repl();
-  void RunFile(const std::string path);
-  // InterpretResult Interpret();
-  InterpretResult Interpret(std::shared_ptr<Chunk> Chunk);
-  Chunk ReadLine(std::string line);
-  Chunk ReadFile(std::string path);
+  void repl();
+  void run_file(const std::string path);
+  InterpretResult interpret(const std::string &line);
+  InterpretResult interpret(const Source &src);
+  Source read_file(std::string path);
   inline size_t ip() {return ip_;}
 
 private:
@@ -41,19 +41,19 @@ private:
   size_t ip_ = 0;
   std::vector<Value> stack_;
 
-  InterpretResult Run();
-  OpCode IpRead();
-  Value ReadConstant();
-  void PrintValue(Value constant);
-  void Push(Value val);
-  Value Pop();
+  InterpretResult run();
+  OpCode ip_read();
+  Value read_constant();
+  void print_value(Value constant);
+  void push(Value val);
+  Value pop();
 
   template<typename Func>
-  void BinaryOp(Func func)
+  void binary_op(Func func)
   {
-    auto r = Pop();
-    auto l = Pop();
-    Push(func(l, r));
+    auto r = pop();
+    auto l = pop();
+    push(func(l, r));
   }
 };
 }

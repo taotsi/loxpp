@@ -35,11 +35,11 @@ int main(int argc, const char **argv){
 
   if(argc == 1)
   {
-    vm.Repl();
+    vm.repl();
   }
   else if(argc == 2)
   {
-    vm.RunFile(argv[1]);
+    vm.run_file(argv[1]);
   }
   else
   {
@@ -47,28 +47,7 @@ int main(int argc, const char **argv){
     exit(64);
   }
 
-  // auto chunk = std::make_shared<Chunk>();
-  // auto addr = chunk->AddConstant(1.3);
-  // chunk->Write(OpCode::OP_CONSTANT, 2);
-  // chunk->Write(addr, 2);
-  // addr = chunk->AddConstant(2.4);
-  // chunk->Write(OpCode::OP_CONSTANT, 2);
-  // chunk->Write(addr, 2);
-  // chunk->Write(OpCode::OP_ADD, 2);
-  // addr = chunk->AddConstant(5.6);
-  // chunk->Write(OpCode::OP_CONSTANT, 2);
-  // chunk->Write(addr, 2);
-  // chunk->Write(OpCode::OP_DIVIDE, 2);
-  // chunk->Write(OpCode::OP_NEGATE, 2);
-  // chunk->Write(OpCode::OP_RETURN, 3);
-  // if(show_asm)
-  // {
-  //   Debuger debug;
-  //   debug.Disassemble(*chunk, "debug");
-  //   std::cout << std::endl;
-  // }
   // vm.Interpret(chunk);
 
-  // printf("~ done ~\n");
   return 0;
 }

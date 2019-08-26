@@ -9,7 +9,7 @@ Chunk::Chunk()
   line_numbers_.push_back(LineNumber{0, 1, 1});
 }
 
-void Chunk::Write(OpCode byte, size_t line_num)
+void Chunk::write(OpCode byte, size_t line_num)
 {
   code_.push_back(std::move(byte));
   if(line_num == line_numbers_.back().line_number())
@@ -23,7 +23,7 @@ void Chunk::Write(OpCode byte, size_t line_num)
   }
 }
 
-void Chunk::Write(ConstantAddress address, size_t line_num)
+void Chunk::write(ConstantAddress address, size_t line_num)
 {
   for (size_t idx = 0; idx < LEN_SIZE_T; idx++)
   {
@@ -40,7 +40,7 @@ void Chunk::Write(ConstantAddress address, size_t line_num)
   }
 }
 
-ConstantAddress Chunk::AddConstant(Value value)
+ConstantAddress Chunk::add_constant(Value value)
 {
   constants_.push_back(value);
   return ConstantAddress{constants_.size() - 1}; // TODO: maybe need thread protection
@@ -56,7 +56,7 @@ OpCode Chunk::operator[](size_t i) const
   return OpCode::OP_UNKNOWN;
 }
 
-LineNumber Chunk::GetLineNum(size_t offset) const
+LineNumber Chunk::get_line_num(size_t offset) const
 {
   auto size_line_nums = line_numbers_.size();
   // TODO: use binary search instead

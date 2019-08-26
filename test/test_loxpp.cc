@@ -1,6 +1,9 @@
 #include "catch.hpp"
+#include "vm.hh"
 
-TEST_CASE("loxpp test")
+TEST_CASE("virtual machin")
 {
-
+  SECTION("interpret")
+  {
+  }
 }

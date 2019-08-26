@@ -15,7 +15,7 @@ using namespace taotsi;
 class Debuger
 {
 public:
-  void Disassemble(const Chunk &chunk, std::string name) const
+  void disassemble(const Chunk &chunk, std::string name) const
   {
     std::cout << "=========== " << name << " ===========\n";
     std::cout << "OFFSET\tLINE\tOPCODE\t\tOPRAND\n--------------------------------------\n";
@@ -23,16 +23,16 @@ public:
     for (size_t offset = 0; offset < size_code;)
     {
       // tval(offset);
-      offset = DisassembleInstruction(chunk, offset);
+      offset = disassemble_instruction(chunk, offset);
     }
   }
 
 private:
   friend class VM;
-  static size_t DisassembleInstruction(const Chunk &chunk, size_t offset)
+  static size_t disassemble_instruction(const Chunk &chunk, size_t offset)
   {
     std::cout << std::setfill('0') << std::setw(4) << offset << "\t";
-    auto line_num = chunk.GetLineNum(offset);
+    auto line_num = chunk.get_line_num(offset);
     // tval(line_num.line_number());
     if(offset == line_num.len_accumulated() - line_num.len_continuous())
     {
@@ -49,39 +49,39 @@ private:
     switch(instruction){
       case OpCode::OP_RETURN:
       {
-        return SimpleInstruction("OP_RETURN", offset);
+        return simple_instruction("OP_RETURN", offset);
       }
       case OpCode::OP_UNKNOWN:
       {
-        return SimpleInstruction("OP_UNKNOWN", offset);
+        return simple_instruction("OP_UNKNOWN", offset);
       }
       case OpCode::OP_CONSTANT:
       {
-        return ConstantInstruction(chunk, "OP_CONSTANT", offset);
+        return constant_instruction(chunk, "OP_CONSTANT", offset);
       }
       case OpCode::OP_RESERVED:
       {
-        return SimpleInstruction("OP_RESERVED", offset);
+        return simple_instruction("OP_RESERVED", offset);
       }
       case OpCode::OP_NEGATE:
       {
-        return SimpleInstruction("OP_NEGATE", offset);
+        return simple_instruction("OP_NEGATE", offset);
       }
       case OpCode::OP_ADD:
       {
-        return SimpleInstruction("OP_ADD", offset);
+        return simple_instruction("OP_ADD", offset);
       }
       case OpCode::OP_SUBTRACT:
       {
-        return SimpleInstruction("OP_SUBTRACT", offset);
+        return simple_instruction("OP_SUBTRACT", offset);
       }
       case OpCode::OP_MULTIPLY:
       {
-        return SimpleInstruction("OP_NEGAOP_MULTIPLYTE", offset);
+        return simple_instruction("OP_NEGAOP_MULTIPLYTE", offset);
       }
       case OpCode::OP_DIVIDE:
       {
-        return SimpleInstruction("OP_DIVIDE", offset);      }
+        return simple_instruction("OP_DIVIDE", offset);      }
       default:
       {
         std::cout << "undefined operation\n";
@@ -89,12 +89,12 @@ private:
       }
     }
   }
-  static size_t SimpleInstruction(std::string &&op_name, size_t offset)
+  static size_t simple_instruction(std::string &&op_name, size_t offset)
   {
     std::cout << op_name << "\n";
     return ++offset;
   }
-  static size_t ConstantInstruction(const Chunk &chunk, std::string &&op_name, size_t offset)
+  static size_t constant_instruction(const Chunk &chunk, std::string &&op_name, size_t offset)
   {
     size_t address = 0;
     offset++;

@@ -25,48 +25,53 @@ VM::VM()
 
 // }
 
-void VM::Repl()
+void VM::repl()
 {
-  tmsg("VM::Repl");
   std::string line;
   std::cout << "> ";
   while(std::getline(std::cin, line))
   {
     if(!line.empty())
     {
-      // auto chunk = std::make_shared<Chunk>(ReadLine(line));
-      // Interpret(chunk);
+      interpret(line);
     }
     std::cout << "> ";
   }
 }
 
-void VM::RunFile(const std::string path)
+void VM::run_file(const std::string path)
 {
-  // auto chunk = std::make_shared<Chunk>(ReadFile(path));
-  // Interpret(chunk);
+  auto src = read_file(path);
+  auto interpret_result = interpret(src);
+
+  if(interpret_result == InterpretResult::COMPILE_ERROR)
+  {
+    exit(65);
+  }
+  if(interpret_result == InterpretResult::RUNTIME_ERROR)
+  {
+    exit(70);
+  }
 }
 
-InterpretResult VM::Interpret(std::shared_ptr<Chunk> chunk)
+InterpretResult VM::interpret(const std::string &line)
 {
-  chunk_ptr_ = chunk;
-  ip_ = 0;
-  return Run();
+  std::cout << line << "\n";
+  return run();
+}
+InterpretResult VM::interpret(const Source &src)
+{
+  std::cout << src << "\n";
+  return run();
 }
 
-Chunk VM::ReadLine(std::string line)
+Source VM::read_file(std::string path)
 {
   // TODO:
-  return Chunk{};
+  return Source{};
 }
 
-Chunk VM::ReadFile(std::string path)
-{
-  // TODO:
-  return Chunk{};
-}
-
-InterpretResult VM::Run()
+InterpretResult VM::run()
 {
   bool is_end = false;
   auto n_instruc = chunk_ptr_->size();
@@ -89,21 +94,21 @@ InterpretResult VM::Run()
     }
     std::cout << "\n";
 #endif
-    OpCode instruct = IpRead();
+    OpCode instruct = ip_read();
     // tval(ip_);
     // tval(chunk_ptr_->size());
     switch(instruct)
     {
       case OpCode::OP_RETURN:
       {
-        std::cout << Pop() << "\n";
-        return InterpretResult::INTERPRET_OK;
+        std::cout << pop() << "\n";
+        return InterpretResult::OK;
       }
       case OpCode::OP_CONSTANT:
       {
-        Value constant = ReadConstant();
-        Push(constant);
-        PrintValue(constant);
+        Value constant = read_constant();
+        push(constant);
+        print_value(constant);
         // tval(stack_.back());
         break;
       }
@@ -119,28 +124,28 @@ InterpretResult VM::Run()
       }
       case OpCode::OP_NEGATE:
       {
-        Push(-Pop());
+        push(-pop());
         break;
       }
       case OpCode::OP_ADD:
       {
         // Implicit instantiation for template function, super cool
-        BinaryOp([](Value l, Value r){return l + r;});
+        binary_op([](Value l, Value r){return l + r;});
         break;
       }
       case OpCode::OP_SUBTRACT:
       {
-        BinaryOp([](Value l, Value r){return l - r;});
+        binary_op([](Value l, Value r){return l - r;});
         break;
       }
       case OpCode::OP_MULTIPLY:
       {
-        BinaryOp([](Value l, Value r){return l * r;});
+        binary_op([](Value l, Value r){return l * r;});
         break;
       }
       case OpCode::OP_DIVIDE:
       {
-        BinaryOp([](Value l, Value r){return l / r;});
+        binary_op([](Value l, Value r){return l / r;});
         break;
       }
       default:
@@ -152,12 +157,12 @@ InterpretResult VM::Run()
   }
 }
 
-OpCode VM::IpRead()
+OpCode VM::ip_read()
 {
   return chunk_ptr_->at(ip_++);
 }
 
-Value VM::ReadConstant()
+Value VM::read_constant()
 {
   // lmark();
   size_t address = 0;
@@ -174,15 +179,15 @@ Value VM::ReadConstant()
   // lmark();
   return value;
 }
-void VM::PrintValue(Value constant)
+void VM::print_value(Value constant)
 {
   std::cout << constant << "\n";
 }
-void VM::Push(Value val)
+void VM::push(Value val)
 {
   stack_.push_back(val);
 }
-Value VM::Pop()
+Value VM::pop()
 {
   auto val = stack_.back();
   stack_.pop_back();

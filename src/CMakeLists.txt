@@ -1,4 +1,4 @@
-add_executable(loxpp main.cc chunk.cc debuger.cc value.cc vm.cc)
+add_executable(loxpp main.cc chunk.cc debuger.cc value.cc vm.cc source.cc)
 
 target_include_directories(loxpp PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(loxpp PUBLIC ${PROJECT_SOURCE_DIR}/extern)

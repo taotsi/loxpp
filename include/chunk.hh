@@ -35,15 +35,15 @@ public:
   Chunk& operator=(Chunk&&) = default;
   ~Chunk() = default;
 
-  void Write(OpCode byte, size_t line_num);
+  void write(OpCode byte, size_t line_num);
   // TODO: combine Write(address) and AddConstant()
-  void Write(ConstantAddress address, size_t line_num);
-  ConstantAddress AddConstant(Value value);
+  void write(ConstantAddress address, size_t line_num);
+  ConstantAddress add_constant(Value value);
   OpCode operator[](size_t i) const;
   inline OpCode at(size_t i) const {return (*this)[i];}
   inline size_t size() const {return code_.size();}
   Value constant(size_t i) const {return constants_[i];}
-  LineNumber GetLineNum(size_t offset) const;
+  LineNumber get_line_num(size_t offset) const;
   inline std::vector<LineNumber> line_numbers() const {return line_numbers_;}
 
   static constexpr int LEN_SIZE_T = sizeof(size_t)/sizeof(uint8_t);
