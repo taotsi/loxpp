@@ -6,6 +6,7 @@
 #include "msg.hh"
 #include "vm.hh"
 #include "debuger.hh"
+#include "utility.hh"
 
 // #define DEBUG_TRACE_EXECUTION
 
@@ -33,8 +34,8 @@ void VM::Repl()
   {
     if(!line.empty())
     {
-      auto chunk = std::make_shared<Chunk>(ReadLine(line));
-      Interpret(chunk);
+      // auto chunk = std::make_shared<Chunk>(ReadLine(line));
+      // Interpret(chunk);
     }
     std::cout << "> ";
   }
@@ -42,8 +43,8 @@ void VM::Repl()
 
 void VM::RunFile(const std::string path)
 {
-  auto chunk = std::make_shared<Chunk>(ReadFile(path));
-  Interpret(chunk);
+  // auto chunk = std::make_shared<Chunk>(ReadFile(path));
+  // Interpret(chunk);
 }
 
 InterpretResult VM::Interpret(std::shared_ptr<Chunk> chunk)
@@ -56,11 +57,13 @@ InterpretResult VM::Interpret(std::shared_ptr<Chunk> chunk)
 Chunk ReadLine(std::string line)
 {
   // TODO:
+  return Chunk{};
 }
 
 Chunk ReadFile(std::string path)
 {
   // TODO:
+  return Chunk{};
 }
 
 InterpretResult VM::Run()
