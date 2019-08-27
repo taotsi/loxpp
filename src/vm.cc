@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <cmath>
+#include <fstream>
 #include "msg.hh"
 #include "vm.hh"
 #include "debuger.hh"
@@ -14,16 +15,6 @@ namespace loxpp
 {
 
 using namespace taotsi;
-
-VM::VM()
-{
-
-}
-// VM::VM(std::shared_ptr<Chunk> chunk)
-//   : chunk_ptr_{chunk}
-// {
-
-// }
 
 void VM::repl()
 {
@@ -54,21 +45,28 @@ void VM::run_file(const std::string path)
   }
 }
 
-InterpretResult VM::interpret(const std::string &line)
-{
-  std::cout << line << "\n";
-  return run();
-}
-InterpretResult VM::interpret(const Source &src)
+InterpretResult VM::interpret(const std::string &src)
 {
   std::cout << src << "\n";
   return run();
 }
 
-Source VM::read_file(std::string path)
+std::string VM::read_file(std::string path)
 {
-  // TODO:
-  return Source{};
+  std::ifstream of{path};
+  if(!of.is_open())
+  {
+    terr("Cound not open file ", path);
+    exit(74);
+  }
+  std::string source;
+  of.seekg(0, std::ios::end);
+  source.resize(of.tellg());
+  of.seekg(0, std::ios::beg);
+  of.read(source.data(), source.size());
+  of.close();
+
+  return source;
 }
 
 InterpretResult VM::run()
@@ -151,10 +149,10 @@ InterpretResult VM::run()
       default:
       {
         std::cout << "unknown opcode\n";
-        // TODO: what will happen?
       }
     }
   }
+  return InterpretResult::OK; // TEMP:
 }
 
 OpCode VM::ip_read()

@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 #include <functional>
-#include "source.hh"
 #include "chunk.hh"
 
 namespace loxpp
@@ -21,8 +20,7 @@ enum class InterpretResult
 class VM
 {
 public:
-  VM();
-  // VM(std::shared_ptr<Chunk>);
+  VM() {};
   VM(const VM&) = default;
   VM(VM&&) = default;
   VM& operator=(const VM&) = default;
@@ -31,9 +29,8 @@ public:
 
   void repl();
   void run_file(const std::string path);
-  InterpretResult interpret(const std::string &line);
-  InterpretResult interpret(const Source &src);
-  Source read_file(std::string path);
+  InterpretResult interpret(const std::string &src);
+  std::string read_file(std::string path);
   inline size_t ip() {return ip_;}
 
 private:

@@ -1,5 +1,0 @@
-add_executable(test_loxpp test_main.cc test_loxpp.cc)
-target_include_directories(test_loxpp PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(test_loxpp PUBLIC ${PROJECT_SOURCE_DIR}/extern/catch2)
-target_include_directories(test_loxpp PUBLIC ${PROJECT_SOURCE_DIR}/extern/little-utility/)
-set_target_properties(test_loxpp PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
