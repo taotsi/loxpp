@@ -1,3 +1,0 @@
-[submodule "deps/little-utility"]
-	path = deps/little-utility
-	url = https://github.com/taotsi/little-utility
