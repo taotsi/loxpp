@@ -2,3 +2,6 @@
 	path = extern/Catch2
 	url = https://github.com/catchorg/Catch2
 
+[submodule "extern/little-utility"]
+	path = extern/little-utility
+	url = https://github.com/taotsi/little-utility
