@@ -1,5 +1,5 @@
-#ifndef TOKEN_HH
-#define TOKEN_HH
+#ifndef HH
+#define HH
 
 #include <string>
 #include "utility.hh"
@@ -10,28 +10,30 @@ namespace loxpp
 enum class TokenType
 {
   // Single-character tokens.
-  TOKEN_LEFT_PAREN, TOKEN_RIGHT_PAREN,
-  TOKEN_LEFT_BRACE, TOKEN_RIGHT_BRACE,
-  TOKEN_COMMA, TOKEN_DOT, TOKEN_MINUS, TOKEN_PLUS,
-  TOKEN_SEMICOLON, TOKEN_SLASH, TOKEN_STAR,
+  LEFT_PAREN, RIGHT_PAREN,
+  LEFT_BRACE, RIGHT_BRACE,
+  COMMA, DOT, MINUS, PLUS,
+  SEMICOLON, SLASH, STAR,
 
   // One or two character tokens.
-  TOKEN_BANG, TOKEN_BANG_EQUAL,
-  TOKEN_EQUAL, TOKEN_EQUAL_EQUAL,
-  TOKEN_GREATER, TOKEN_GREATER_EQUAL,
-  TOKEN_LESS, TOKEN_LESS_EQUAL,
+  BANG, BANG_EQUAL,
+  EQUAL, EQUAL_EQUAL,
+  GREATER, GREATER_EQUAL,
+  LESS, LESS_EQUAL,
 
   // Literals.
-  TOKEN_IDENTIFIER, TOKEN_STRING, TOKEN_NUMBER,
+  IDENTIFIER, STRING, NUMBER,
 
   // Keywords.
-  TOKEN_AND, TOKEN_CLASS, TOKEN_ELSE, TOKEN_FALSE,
-  TOKEN_FOR, TOKEN_FUN, TOKEN_IF, TOKEN_NIL, TOKEN_OR,
-  TOKEN_PRINT, TOKEN_RETURN, TOKEN_SUPER, TOKEN_THIS,
-  TOKEN_TRUE, TOKEN_VAR, TOKEN_WHILE,
+  AND, CLASS, ELSE, FALSE,
+  FOR, FUN, IF, NIL, OR,
+  PRINT, RETURN, SUPER, THIS,
+  TRUE, VAR, WHILE,
 
-  TOKEN_ERROR,
-  TOKEN_EOF
+  ERROR,
+
+#undef EOF
+  EOF
 };
 
 std::string token_type_name(TokenType token_type);
@@ -42,7 +44,10 @@ class Token
 public:
   Token() {};
   DEFAULT_SPECIAL_FUNCTIONS(Token);
-  TokenType type() const { return type_; }
+  inline TokenType type() const { return type_; }
+  inline size_t line() const { return line_; }
+  inline size_t start() const { return start_; }
+  inline size_t lenght() const { return length_; }
 private:
   TokenType type_;
   size_t start_ = 0;
@@ -53,4 +58,4 @@ private:
 
 }
 
-#endif // TOKEN_HH
+#endif // HH

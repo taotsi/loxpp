@@ -16,5 +16,5 @@ TEST_CASE("virtual machin")
 
 TEST_CASE("token")
 {
-  REQUIRE(loxpp::token_type_name(loxpp::TokenType::TOKEN_EOF) == "TOKEN_EOF");
+  REQUIRE(loxpp::token_type_name(loxpp::TokenType::EOF) == "EOF");
 }

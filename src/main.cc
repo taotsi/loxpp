@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <string>
 #include <experimental/filesystem>
 #include "common.hh"
