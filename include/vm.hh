@@ -5,6 +5,7 @@
 #include <vector>
 #include <functional>
 #include "chunk.hh"
+#include "compiler.hh"
 
 namespace loxpp
 {
@@ -37,6 +38,7 @@ private:
   std::shared_ptr<Chunk> chunk_ptr_;
   size_t ip_ = 0;
   std::vector<Value> stack_;
+  Compiler compiler_;
 
   InterpretResult run();
   OpCode ip_read();

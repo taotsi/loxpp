@@ -47,7 +47,7 @@ void VM::run_file(const std::string path)
 
 InterpretResult VM::interpret(const std::string &src)
 {
-  std::cout << src << "\n";
+  compiler_.compile(src);
   return run();
 }
 
