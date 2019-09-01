@@ -5,20 +5,6 @@
 
 using namespace taotsi;
 
-TEST_CASE("virtual machin")
-{
-  loxpp::VM vm;
-#ifdef TEST_SCRIPT_PATH
-  auto src = vm.read_file(TEST_SCRIPT_PATH);
-  REQUIRE(src == std::string("print 42"));
-#endif
-}
-
-TEST_CASE("token")
-{
-  REQUIRE(loxpp::token_type_name(loxpp::TokenType::EOF) == "EOF");
-}
-
 TEST_CASE("scanner")
 {
   loxpp::Scanner scanner;
@@ -109,9 +95,9 @@ TEST_CASE("scanner")
 
   SECTION("all together")
   {
-    std::string src10{
-      "if(flag == true and x1 > 42){\n  print \"yes\";\n  var x2 = 10;}"
-    };
+#ifdef TEST_SCRIPT_PATH
+    loxpp::VM vm;
+    auto src10 = vm.read_file(TEST_SCRIPT_PATH);
     scanner.load_source(src10);
     REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::IF, 0, 2, 0});
     REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::LEFT_PAREN, 2,1 , 0});
@@ -123,15 +109,16 @@ TEST_CASE("scanner")
     REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::GREATER, 23, 1, 0});
     REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::NUMBER, 25, 2, 0});
     REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::RIGHT_PAREN, 27, 1, 0});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::LEFT_BRACE, 28, 1, 0});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::PRINT, 32, 5, 1});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::STRING, 38, 5, 1});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::SEMICOLON, 43, 1, 1});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::VAR, 47, 3, 2});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::IDENTIFIER, 51, 2, 2});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::EQUAL, 54, 1, 2});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::NUMBER, 56, 2, 2});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::SEMICOLON, 58, 1, 2});
-    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::RIGHT_BRACE, 59, 1, 2});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::LEFT_BRACE, 29, 1, 1});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::PRINT, 33, 5, 2});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::STRING, 39, 5, 2});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::SEMICOLON, 44, 1, 2});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::VAR, 48, 3, 3});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::IDENTIFIER, 52, 2, 3});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::EQUAL, 55, 1, 3});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::NUMBER, 57, 2, 3});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::SEMICOLON, 59, 1, 3});
+    REQUIRE(scanner.scan_token() == loxpp::Token{loxpp::TokenType::RIGHT_BRACE, 61, 1, 4});
+#endif
   }
 }

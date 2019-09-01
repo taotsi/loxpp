@@ -1,1 +1,5 @@
-print 42
+if(flag == true and x1 > 42)
+{
+  print "yes";
+  var x2 = 10;
+}
