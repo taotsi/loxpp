@@ -4,30 +4,29 @@
 namespace loxpp
 {
 
-Chunk Compiler::compile(std::string &src)
+bool Compiler::compile(std::string &src, Chunk &chunk)
 {
   size_t line = -1;
   scanner_.load_source(src);
   while(true)
   {
-    scanner_.load_source(src);
     auto token = scanner_.scan_token();
     if(token.line() != line)
     {
-      std::cout << std::setw(4) << line;
+      std::cout << std::setw(4) << token.line() << "-";
       line = token.line();
     }
     else
     {
-      std::cout << "  | ";
+      std::cout << "   | ";
     }
-    std::cout << std::setw(20) << token.type() << "  " << token.lenght() << "  " << token.start() << "\n";
+    std::cout << token << "\n";
     if(token.type() == TokenType::EOF)
     {
       break;
     }
   }
-  return Chunk{};
+  return false;
 }
 
 }

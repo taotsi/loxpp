@@ -5,6 +5,7 @@
 #include <array>
 #include "value.hh"
 #include "common.hh"
+#include "utility.hh"
 
 namespace loxpp{
 
@@ -29,11 +30,7 @@ class Chunk
 {
 public:
   Chunk();
-  Chunk(const Chunk&) = default;
-  Chunk(Chunk&&) = default;
-  Chunk& operator=(const Chunk&) = default;
-  Chunk& operator=(Chunk&&) = default;
-  ~Chunk() = default;
+  DEFAULT_SPECIAL_FUNCTIONS(Chunk);
 
   void write(OpCode byte, size_t line_num);
   // TODO: combine Write(address) and AddConstant()

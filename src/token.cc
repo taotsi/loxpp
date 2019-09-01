@@ -1,6 +1,7 @@
 #include "token.hh"
 #include "unordered_map"
 #include <tuple>
+#include <iomanip>
 
 namespace loxpp
 {
@@ -70,7 +71,7 @@ bool operator==(const Token &lhs, const Token &rhs)
 
 std::ostream& operator<<(std::ostream &os, Token token)
 {
-  os << token.type_ << ", " << token.start_ << " |<-" << token.length_ << "->| @" << token.line_;
+  os << std::setw(14) << token.type_ << ", " << std::setw(4) << token.start_ << " |<-" << token.length_ << "->|  @" << " " << token.line_;
   return os;
 }
 

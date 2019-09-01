@@ -58,7 +58,6 @@ private:
   size_t start_ = 0;
   size_t length_ = 0;
   size_t line_ = 0; // TODO: should be a range, not a single value
-
 };
 
 }

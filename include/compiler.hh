@@ -6,13 +6,19 @@
 
 namespace loxpp
 {
+enum class InterpretResult
+{
+  OK,
+  COMPILE_ERROR,
+  RUNTIME_ERROR
+};
 
 class Compiler
 {
 public:
   Compiler() {};
   DEFAULT_SPECIAL_FUNCTIONS(Compiler);
-  Chunk compile(std::string &src);
+  bool compile(std::string &src, Chunk &chunk);
 
 private:
   Scanner scanner_;

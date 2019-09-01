@@ -10,23 +10,12 @@
 namespace loxpp
 {
 
-enum class InterpretResult
-{
-  OK,
-  COMPILE_ERROR,
-  RUNTIME_ERROR
-};
-
 // NOTE: only one VM instance is needed
 class VM
 {
 public:
   VM() {};
-  VM(const VM&) = default;
-  VM(VM&&) = default;
-  VM& operator=(const VM&) = default;
-  VM& operator=(VM&&) = default;
-  ~VM() = default;
+  DEFAULT_SPECIAL_FUNCTIONS(VM);
 
   void repl();
   void run_file(const std::string path);
@@ -35,7 +24,7 @@ public:
   inline size_t ip() {return ip_;}
 
 private:
-  std::shared_ptr<Chunk> chunk_ptr_;
+  Chunk chunk_;
   size_t ip_ = 0;
   std::vector<Value> stack_;
   Compiler compiler_;

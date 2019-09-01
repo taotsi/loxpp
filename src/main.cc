@@ -27,7 +27,5 @@ int main(int argc, const char **argv){
     exit(64);
   }
 
-  // vm.Interpret(chunk);
-
   return 0;
 }

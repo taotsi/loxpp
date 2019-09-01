@@ -3,3 +3,25 @@ if(flag == true and x1 > 42)
   print "yes";
   var x2 = 10;
 }
+
+// 0-            IF,    0 |<-2->|  @ 0
+// |     LEFT_PAREN,    2 |<-1->|  @ 0
+// |     IDENTIFIER,    3 |<-4->|  @ 0
+// |    EQUAL_EQUAL,    8 |<-2->|  @ 0
+// |           TRUE,   11 |<-4->|  @ 0
+// |            AND,   16 |<-3->|  @ 0
+// |     IDENTIFIER,   20 |<-2->|  @ 0
+// |        GREATER,   23 |<-1->|  @ 0
+// |         NUMBER,   25 |<-2->|  @ 0
+// |    RIGHT_PAREN,   27 |<-1->|  @ 0
+// 1-    LEFT_BRACE,   29 |<-1->|  @ 1
+// 2-         PRINT,   33 |<-5->|  @ 2
+// |         STRING,   39 |<-5->|  @ 2
+// |      SEMICOLON,   44 |<-1->|  @ 2
+// 3-           VAR,   48 |<-3->|  @ 3
+// |     IDENTIFIER,   52 |<-2->|  @ 3
+// |          EQUAL,   55 |<-1->|  @ 3
+// |         NUMBER,   57 |<-2->|  @ 3
+// |      SEMICOLON,   59 |<-1->|  @ 3
+// 4-   RIGHT_BRACE,   61 |<-1->|  @ 4
+// 26           EOF,  882 |<-1->|  @ 26

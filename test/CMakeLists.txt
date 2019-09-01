@@ -1,4 +1,4 @@
-add_executable(test_loxpp test_main.cc test_loxpp.cc)
+add_executable(test_loxpp test_main.cc test_scanner.cc test_compiler.cc)
 
 target_include_directories(test_loxpp PUBLIC ${include_dir})
 target_include_directories(test_loxpp PUBLIC ${catch2_dir})
