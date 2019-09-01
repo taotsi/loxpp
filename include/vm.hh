@@ -30,7 +30,7 @@ public:
 
   void repl();
   void run_file(const std::string path);
-  InterpretResult interpret(const std::string &src);
+  InterpretResult interpret(std::string &src);
   std::string read_file(std::string path);
   inline size_t ip() {return ip_;}
 

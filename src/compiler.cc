@@ -4,11 +4,13 @@
 namespace loxpp
 {
 
-Chunk Compiler::compile(const std::string &src)
+Chunk Compiler::compile(std::string &src)
 {
   size_t line = -1;
+  scanner_.load_source(src);
   while(true)
   {
+    scanner_.load_source(src);
     auto token = scanner_.scan_token();
     if(token.line() != line)
     {

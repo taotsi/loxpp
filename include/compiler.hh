@@ -12,7 +12,7 @@ class Compiler
 public:
   Compiler() {};
   DEFAULT_SPECIAL_FUNCTIONS(Compiler);
-  Chunk compile(const std::string &src);
+  Chunk compile(std::string &src);
 
 private:
   Scanner scanner_;
