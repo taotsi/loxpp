@@ -45,10 +45,17 @@ void VM::run_file(const std::string path)
   }
 }
 
-InterpretResult VM::interpret(const std::string &src)
+InterpretResult VM::interpret(std::string &src)
 {
-  compiler_.compile(src);
-  return run();
+  auto compile_success = compiler_.compile(src, chunk_);
+  if(!compile_success)
+  {
+    return InterpretResult::COMPILE_ERROR;
+  }
+
+  ip_ = 0;
+  auto rumtime_success = run();
+  return rumtime_success;
 }
 
 std::string VM::read_file(std::string path)
@@ -72,11 +79,11 @@ std::string VM::read_file(std::string path)
 InterpretResult VM::run()
 {
   bool is_end = false;
-  auto n_instruc = chunk_ptr_->size();
+  auto n_instruc = chunk_.size();
   while(ip_ < n_instruc)
   {
 #ifdef DEBUG_TRACE_EXECUTION
-    Debuger::DisassembleInstruction(*chunk_ptr_, ip_);
+    Debuger::DisassembleInstruction(chunk, ip_);
     std::cout << "stack: ";
     if(!stack_.empty())
     {
@@ -93,8 +100,6 @@ InterpretResult VM::run()
     std::cout << "\n";
 #endif
     OpCode instruct = ip_read();
-    // tval(ip_);
-    // tval(chunk_ptr_->size());
     switch(instruct)
     {
       case OpCode::OP_RETURN:
@@ -107,7 +112,6 @@ InterpretResult VM::run()
         Value constant = read_constant();
         push(constant);
         print_value(constant);
-        // tval(stack_.back());
         break;
       }
       case OpCode::OP_UNKNOWN:
@@ -157,24 +161,20 @@ InterpretResult VM::run()
 
 OpCode VM::ip_read()
 {
-  return chunk_ptr_->at(ip_++);
+  return chunk_.at(ip_++);
 }
 
 Value VM::read_constant()
 {
-  // lmark();
   size_t address = 0;
   // right now ip_ points to the first byte of constant address just followint OpCode::OP_CONSTANT
   // TODO: this is repeated code block, should be reusable
   for (size_t idx = 0; idx < Chunk::LEN_SIZE_T; idx++)
   {
-    // tval(idx);
-    address |= static_cast<size_t>(chunk_ptr_->at(idx + ip_)) << 8*(Chunk::LEN_SIZE_T - idx - 1);
-    // tval(address);
+    address |= static_cast<size_t>(chunk_.at(idx + ip_)) << 8*(Chunk::LEN_SIZE_T - idx - 1);
   }
   ip_ += Chunk::LEN_SIZE_T;
-  auto value = chunk_ptr_->constant(address);
-  // lmark();
+  auto value = chunk_.constant(address);
   return value;
 }
 void VM::print_value(Value constant)

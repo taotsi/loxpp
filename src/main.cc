@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <string>
 #include <experimental/filesystem>
 #include "common.hh"
@@ -27,8 +26,6 @@ int main(int argc, const char **argv){
     twarn("Usage: clox [path]");
     exit(64);
   }
-
-  // vm.Interpret(chunk);
 
   return 0;
 }
