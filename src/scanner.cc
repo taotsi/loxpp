@@ -351,4 +351,10 @@ bool Scanner::is_at_end()
   return current_ >= src_.size();
 }
 
+std::string Scanner::token_str(Token &token)
+{
+  return src_.substr(token.start(), token.length());
+}
+
+
 }

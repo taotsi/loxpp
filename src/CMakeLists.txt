@@ -1,4 +1,4 @@
-add_library(libloxpp chunk.cc debuger.cc value.cc vm.cc compiler.cc scanner.cc token.cc)
+add_library(libloxpp chunk.cc debuger.cc value.cc vm.cc compiler.cc scanner.cc token.cc parser.cc)
 
 target_include_directories(libloxpp PUBLIC ${include_dir})
 target_include_directories(libloxpp PUBLIC ${utility_dir})
