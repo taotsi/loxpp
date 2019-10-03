@@ -50,7 +50,7 @@ public:
   inline TokenType type() const { return type_; }
   inline size_t line() const { return line_; }
   inline size_t start() const { return start_; }
-  inline size_t lenght() const { return length_; }
+  inline size_t length() const { return length_; }
   friend bool operator==(const Token &lhs, const Token &rhs);
   friend std::ostream& operator<<(std::ostream &os, Token token);
 private:

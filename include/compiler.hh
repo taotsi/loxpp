@@ -3,6 +3,7 @@
 #include "utility.hh"
 #include "chunk.hh"
 #include "scanner.hh"
+#include "parser.hh"
 
 namespace loxpp
 {
@@ -22,6 +23,12 @@ public:
 
 private:
   Scanner scanner_;
+  Parser parser_; // TODO: initialize??
+
+  void advance();
+  void error(Token &token, std::string message = "");
+  void consume(TokenType token_type, std::string message);
+
 };
 
 } // namespace loxpp

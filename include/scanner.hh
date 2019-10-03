@@ -13,6 +13,7 @@ public:
   DEFAULT_SPECIAL_FUNCTIONS(Scanner);
   Token scan_token();
   void load_source(std::string &src);
+  std::string token_str(Token &token);
 
 private:
   size_t start_ = 0;    // index of start character of current token
